@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: DataMigrator
+datasource:
+  source:
+    type: "oracle"
+    url: "jdbc:oracle:thin:@localhost:15212:SAP"
+    user: "DMSMIGRATION"
+    password: "DMSMIGRATION"
+    driver : "oracle.jdbc.driver.OracleDriver"
+  target:
+    type: "postgres"
+    url: "jdbc:oracle:thin:@localhost:15212:SAP"
+    user: "DMSMIGRATION"
+    password: "DMSMIGRATION"
+    driver : "oracle.jdbc.driver.OracleDriver"
+
+    #jdbc:oracle:thin:@localhost:15212:SAP
