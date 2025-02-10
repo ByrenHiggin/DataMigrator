@@ -5,6 +5,7 @@ import com.tw.datamigrator.services.Schema.SchemaServiceFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.lang.IllegalArgumentException
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
@@ -24,7 +26,7 @@ class UnitTests {
 
     @Nested
     @TestPropertySource(properties =
-    ["database.source.type=postgres", "database.target.type=oracle"])
+    ["datasource.source.type=oracle", "datasource.target.type=postgres"])
     inner class WhenCallingSchemaServiceFactory {
         @MockitoBean
         @Qualifier("sourceJdbcTemplate")
@@ -44,14 +46,6 @@ class UnitTests {
             assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
         }
 
-        @Test
-        fun ShouldReturnErrorWhenDatabaseSourceTypeIsIncorrect() {
-            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
-            Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
-                    .thenReturn(expectedSchema)
-            val source = schemaServiceFactory.getSourceSchemaService()
-            assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
-        }
         @Test
         fun ShouldBeAbleToQuerySourceAndGetSchema() {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
@@ -74,7 +68,7 @@ class UnitTests {
 
     @Nested
     @TestPropertySource(properties =
-    ["database.source.type=brokenDB", "database.target.type=brokenDB"])
+    ["datasource.source.type=brokenDB", "datasource.target.type=brokenDB"])
     inner class WhenCallingSchemaServiceFactoryWithBrokenCnfiguration {
         @MockitoBean
         @Qualifier("sourceJdbcTemplate")
@@ -90,8 +84,9 @@ class UnitTests {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
-            val source = schemaServiceFactory.getSourceSchemaService()
-            assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
+            assertThrows<IllegalArgumentException> {
+                schemaServiceFactory.getSourceSchemaService()
+            }
         }
     }
 
