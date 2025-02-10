@@ -1,6 +1,13 @@
 spring:
   application:
     name: DataMigrator
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
 datasource:
   source:
     type: "oracle"
