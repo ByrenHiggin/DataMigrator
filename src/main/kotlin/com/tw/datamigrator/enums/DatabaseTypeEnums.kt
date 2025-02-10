@@ -1,6 +1,6 @@
 package com.tw.datamigrator.enums
 
-enum class DatabaseTypeEnums(val type:String) {
+enum class DatabaseType(val type:String) {
     ORACLE("oracle"),
     POSTGRES("postgres"),
     MYSQL("mysql")
