@@ -15,5 +15,4 @@ import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest
-class IntegrationTests {
-}
+class IntegrationTests

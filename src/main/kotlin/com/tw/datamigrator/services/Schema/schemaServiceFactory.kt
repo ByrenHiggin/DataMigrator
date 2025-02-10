@@ -18,7 +18,7 @@ class SchemaServiceFactory(
 
     fun getSourceSchemaService(): SchemaServiceInterface {
         val sourceSchema = getSchemaType(databaseProperties.source.type.lowercase(), sourceJDBCTemplate)
-        return sourceSchema;
+        return sourceSchema
     }
 
     fun getTargetSchemaService(): SchemaServiceInterface {

@@ -5,26 +5,26 @@ import com.tw.datamigrator.services.Schema.SchemaServiceFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.ApplicationContext
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
+@ExtendWith(SpringExtension::class)
 class UnitTests {
-    companion object {
-        @DynamicPropertySource
-        @JvmStatic
-        fun dynamicProperties(registry: DynamicPropertyRegistry) {
-            registry.add("database.source.type") { "postgres" }
-            registry.add("database.target.type") { "oracle" }
-        }
-    }
+    @Autowired
+    private lateinit var applicationContext: ApplicationContext
+
     @Nested
+    @TestPropertySource(properties =
+    ["database.source.type=postgres", "database.target.type=oracle"])
     inner class WhenCallingSchemaServiceFactory {
         @MockitoBean
         @Qualifier("sourceJdbcTemplate")
@@ -40,7 +40,7 @@ class UnitTests {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
-            val source = schemaServiceFactory.getSourceSchemaService();
+            val source = schemaServiceFactory.getSourceSchemaService()
             assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
         }
 
@@ -49,7 +49,7 @@ class UnitTests {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
-            val source = schemaServiceFactory.getSourceSchemaService();
+            val source = schemaServiceFactory.getSourceSchemaService()
             assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
         }
         @Test
@@ -57,20 +57,44 @@ class UnitTests {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
-            val source = schemaServiceFactory.getSourceSchemaService();
-            val result = source.getTableSchema("adrc", "SAPCRM");
+            val source = schemaServiceFactory.getSourceSchemaService()
+            val result = source.getTableSchema("adrc", "SAPCRM")
             assertEquals(expectedSchema, result)
         }
         @Test
         fun ShouldBeAbleToQueryTargetAndGetSchema() {
             val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
-            Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+            Mockito.`when`(targetJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
-            val target = schemaServiceFactory.getTargetSchemaService();
-            val result = target.getTableSchema("adrc", "SAPCRM");
+            val target = schemaServiceFactory.getTargetSchemaService()
+            val result = target.getTableSchema("adrc", "SAPCRM")
             assertEquals(expectedSchema, result)
         }
     }
+
+    @Nested
+    @TestPropertySource(properties =
+    ["database.source.type=brokenDB", "database.target.type=brokenDB"])
+    inner class WhenCallingSchemaServiceFactoryWithBrokenCnfiguration {
+        @MockitoBean
+        @Qualifier("sourceJdbcTemplate")
+        private lateinit var sourceJdbcTemplate: JdbcTemplate
+        @MockitoBean
+        @Qualifier("targetJdbcTemplate")
+        private lateinit var targetJdbcTemplate: JdbcTemplate
+        @Autowired
+        private lateinit var schemaServiceFactory: SchemaServiceFactory
+
+        @Test
+        fun ShouldReturnErrorWhenDatabaseSourceTypeIsIncorrect() {
+            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
+            Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                    .thenReturn(expectedSchema)
+            val source = schemaServiceFactory.getSourceSchemaService()
+            assertEquals(source::class.simpleName, OracleSchemaService::class.simpleName)
+        }
+    }
+
 
 
 }
