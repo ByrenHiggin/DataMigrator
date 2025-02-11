@@ -1,9 +1,9 @@
 package com.tw.datamigrator.mappers
 
-import com.tw.datamigrator.models.DTO.TransferSchema
-import com.tw.datamigrator.models.SchemaData
-import com.tw.datamigrator.models.oracle.OracleSchema
-import com.tw.datamigrator.models.postgres.PostgresSchema
+import com.tw.datamigrator.models.schema.DTO.TransferSchema
+import com.tw.datamigrator.models.schema.SchemaData
+import com.tw.datamigrator.models.schema.oracle.OracleSchema
+import com.tw.datamigrator.models.schema.postgres.PostgresSchema
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -20,6 +20,6 @@ class MapperService @Autowired constructor(private val mappers: List<IMapper>) {
 
     fun mapSchema(schema: SchemaData): TransferSchema {
         val mapper = getMapper(schema)
-        return mapper.map(schema) ?: throw RuntimeException("No mapper found for schema $schema")
+        return mapper.map(schema)
     }
 }

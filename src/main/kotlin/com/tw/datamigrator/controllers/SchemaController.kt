@@ -1,8 +1,8 @@
 package com.tw.datamigrator.controllers
 
 import com.tw.datamigrator.mappers.MapperService
-import com.tw.datamigrator.models.DTO.TransferSchema
-import com.tw.datamigrator.services.Schema.SchemaServiceFactory
+import com.tw.datamigrator.models.schema.DTO.TransferSchema
+import com.tw.datamigrator.services.schema.SchemaServiceFactory
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/schema")
 class SourceSchemaController(
-        private val schemaServiceFactory: SchemaServiceFactory,
+        private val schemaServiceFactory:SchemaServiceFactory,
         private val mapperService: MapperService) {
 
     private val logger = KotlinLogging.logger {}

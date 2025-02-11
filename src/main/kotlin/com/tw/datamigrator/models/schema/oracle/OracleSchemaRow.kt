@@ -1,4 +1,4 @@
-package com.tw.datamigrator.models.oracle
+package com.tw.datamigrator.models.schema.oracle
 
 data class OracleSchemaRow(
     val columnName: String,

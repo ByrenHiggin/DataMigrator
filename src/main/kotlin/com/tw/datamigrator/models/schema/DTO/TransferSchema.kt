@@ -1,6 +1,4 @@
-package com.tw.datamigrator.models.DTO
-
-import com.tw.datamigrator.models.oracle.OracleSchemaRow
+package com.tw.datamigrator.models.schema.DTO
 
 data class TransferSchema (
     val tableName: String,

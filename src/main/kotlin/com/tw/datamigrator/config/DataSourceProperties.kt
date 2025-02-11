@@ -13,7 +13,6 @@ data class DatabaseProperties(
 data class DataSourceProperties(
     var type: String = "",
     var url: String = "",
-    var driver: String = "",
     var user: String = "",
     var password: String = ""
 )

@@ -1,9 +1,9 @@
 package com.tw.datamigrator.mappers
 
-import com.tw.datamigrator.models.DTO.TransferSchema
-import com.tw.datamigrator.models.DTO.TransferSchemaRow
-import com.tw.datamigrator.models.oracle.OracleSchema
-import com.tw.datamigrator.models.SchemaData
+import com.tw.datamigrator.models.schema.DTO.TransferSchema
+import com.tw.datamigrator.models.schema.DTO.TransferSchemaRow
+import com.tw.datamigrator.models.schema.oracle.OracleSchema
+import com.tw.datamigrator.models.schema.SchemaData
 import org.springframework.stereotype.Component
 
 @Component

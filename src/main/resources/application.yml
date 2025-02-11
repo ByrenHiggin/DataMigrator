@@ -1,6 +1,9 @@
 spring:
   application:
     name: DataMigrator
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 management:
   endpoints:
@@ -10,16 +13,14 @@ management:
 
 datasource:
   source:
-    type: "oracle"
-    url: "jdbc:oracle:thin:@localhost:15212:SAP"
-    user: "DMSMIGRATION"
-    password: "DMSMIGRATION"
-    driver : "oracle.jdbc.driver.OracleDriver"
+    type: "postgres"
+    url: "jdbc:postgresql://localhost:5432/postgres"
+    user: "postgres"
+    password: "postgres"
   target:
     type: "postgres"
-    url: "jdbc:oracle:thin:@localhost:15212:SAP"
-    user: "DMSMIGRATION"
-    password: "DMSMIGRATION"
-    driver : "oracle.jdbc.driver.OracleDriver"
+    url: "jdbc:postgresql://localhost:5432/postgres"
+    user: "postgres"
+    password: "postgres"
 
     #jdbc:oracle:thin:@localhost:15212:SAP

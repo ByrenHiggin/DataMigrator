@@ -1,16 +1,20 @@
 spring:
   application:
     name: DataMigrator
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
 datasource:
   source:
-    type: "oracle"
-    url: "jdbc:oracle:thin:@localhost:15212:SAP"
-    user: "TESTUSER"
-    password: "TESTPW"
-    driver : "oracle.jdbc.driver.OracleDriver"
+    type: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: postgres
+    driver : org.postgresql.Driver
   target:
     type: "postgres"
-    url: "jdbc:oracle:thin:@localhost:15212:SAP"
-    user: "TESTUSER"
-    password: "TESTPW"
-    driver : "oracle.jdbc.driver.OracleDriver"
+    url: "jdbc:postgresql://localhost:5432/postgres"
+    user: "postgres"
+    password: "postgres"
+    driver : "org.postgresql.Driver"

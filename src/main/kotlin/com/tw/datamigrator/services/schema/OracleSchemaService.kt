@@ -1,6 +1,6 @@
-package com.tw.datamigrator.services.Schema
+package com.tw.datamigrator.services.schema
 
-import com.tw.datamigrator.models.oracle.OracleSchema
+import com.tw.datamigrator.models.schema.oracle.OracleSchema
 import org.springframework.jdbc.core.JdbcTemplate
 import java.util.*
 

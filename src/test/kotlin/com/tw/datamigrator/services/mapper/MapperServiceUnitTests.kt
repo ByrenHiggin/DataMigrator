@@ -1,11 +1,11 @@
 package com.tw.datamigrator.services.mapper
 
 import com.tw.datamigrator.mappers.MapperService
-import com.tw.datamigrator.models.DTO.TransferSchema
-import com.tw.datamigrator.models.oracle.OracleSchema
-import com.tw.datamigrator.models.oracle.OracleSchemaRow
-import com.tw.datamigrator.services.Schema.OracleSchemaService
-import com.tw.datamigrator.services.Schema.SchemaServiceFactory
+import com.tw.datamigrator.models.schema.DTO.TransferSchema
+import com.tw.datamigrator.models.schema.oracle.OracleSchema
+import com.tw.datamigrator.models.schema.oracle.OracleSchemaRow
+import com.tw.datamigrator.services.schema.OracleSchemaService
+import com.tw.datamigrator.services.schema.SchemaServiceFactory
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.TestPropertySource
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import kotlin.test.assertEquals
 
@@ -27,7 +26,7 @@ class MapperServiceUnitTests {
 
     @Nested
     @TestPropertySource(properties =
-    ["datasource.source.type=oracle", "datasource.target.type=postgres"])
+    ["datasource.source.type=postgres", "datasource.target.type=postgres"])
     inner class WhenCallingSchemaServiceFactory {
 
         @Mock
