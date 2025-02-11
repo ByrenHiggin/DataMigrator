@@ -1,6 +1,6 @@
 package com.tw.datamigrator.models.oracle
 
-import com.tw.datamigrator.services.Schema.SchemaData
+import com.tw.datamigrator.models.SchemaData
 
 data class OracleSchema(
     val tableName: String,
@@ -8,7 +8,7 @@ data class OracleSchema(
     val rows: List<OracleSchemaRow>
 ): SchemaData {
     companion object {
-        fun fromMap(result: List<Map<String, Any>>): OracleSchema {
+        fun fromMap(tableName: String, schema: String, result: List<Map<String, Any>>): OracleSchema {
             val rows = result.map {
                 OracleSchemaRow(
                         it["COLUMN_NAME"] as String,
@@ -18,8 +18,8 @@ data class OracleSchema(
                 )
             }
             return OracleSchema(
-                    result[0]["TABLE_NAME"] as String,
-                    result[0]["OWNER"] as String,
+                    tableName,
+                    schema,
                     rows
             )
         }

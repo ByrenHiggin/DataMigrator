@@ -1,5 +1,8 @@
 package com.tw.datamigrator.services.schema
 
+import com.tw.datamigrator.models.oracle.OracleSchema
+import com.tw.datamigrator.models.oracle.OracleSchemaRow
+import com.tw.datamigrator.models.postgres.PostgresSchema
 import com.tw.datamigrator.services.Schema.OracleSchemaService
 import com.tw.datamigrator.services.Schema.SchemaServiceFactory
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,7 +23,7 @@ import java.lang.IllegalArgumentException
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class UnitTests {
+class SchemaQueryUnitTests {
     @Autowired
     private lateinit var applicationContext: ApplicationContext
 
@@ -48,18 +51,20 @@ class UnitTests {
 
         @Test
         fun ShouldBeAbleToQuerySourceAndGetSchema() {
-            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
+            val inputSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER", "NULLABLE" to "Y", "DATA_DEFAULT" to "0"))
+            val expectedSchema = OracleSchema("adrc", "SAPCRM", listOf(OracleSchemaRow("ID", "NUMBER", "Y", "0")))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
-                    .thenReturn(expectedSchema)
+                    .thenReturn(inputSchema)
             val source = schemaServiceFactory.getSourceSchemaService()
             val result = source.getTableSchema("adrc", "SAPCRM")
             assertEquals(expectedSchema, result)
         }
         @Test
         fun ShouldBeAbleToQueryTargetAndGetSchema() {
-            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
+            val inputSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER", "NULLABLE" to "Y", "DATA_DEFAULT" to "0"))
+            val expectedSchema = PostgresSchema("adrc", "SAPCRM", listOf(OracleSchemaRow("ID", "NUMBER", "Y", "0")))
             Mockito.`when`(targetJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
-                    .thenReturn(expectedSchema)
+                    .thenReturn(inputSchema)
             val target = schemaServiceFactory.getTargetSchemaService()
             val result = target.getTableSchema("adrc", "SAPCRM")
             assertEquals(expectedSchema, result)
@@ -81,7 +86,7 @@ class UnitTests {
 
         @Test
         fun ShouldReturnErrorWhenDatabaseSourceTypeIsIncorrect() {
-            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER"))
+            val expectedSchema = listOf(mapOf("COLUMN_NAME" to "ID", "DATA_TYPE" to "NUMBER", "NULLABLE" to "Y", "DATA_DEFAULT" to "0"))
             Mockito.`when`(sourceJdbcTemplate.queryForList(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                     .thenReturn(expectedSchema)
             assertThrows<IllegalArgumentException> {

@@ -3,9 +3,11 @@ package com.tw.datamigrator.mappers
 import com.tw.datamigrator.models.DTO.TransferSchema
 import com.tw.datamigrator.models.DTO.TransferSchemaRow
 import com.tw.datamigrator.models.oracle.OracleSchema
-import com.tw.datamigrator.services.Schema.SchemaData
+import com.tw.datamigrator.models.SchemaData
+import org.springframework.stereotype.Component
 
-class oracleMapper: IMapper {
+@Component
+class OracleMapper: IMapper {
     override fun map(schemeData: SchemaData): TransferSchema {
         val schema = schemeData as OracleSchema
         return TransferSchema(
@@ -21,5 +23,4 @@ class oracleMapper: IMapper {
                 }
         )
     }
-
 }

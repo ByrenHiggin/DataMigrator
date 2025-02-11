@@ -1,8 +1,6 @@
 package com.tw.datamigrator.services.Schema
 
-import com.tw.datamigrator.controllers.SourceSchemaController
-import com.tw.datamigrator.data.DatabaseProperties
-import com.tw.datamigrator.enums.DatabaseTypeEnums
+import com.tw.datamigrator.config.DatabaseProperties
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.jdbc.core.JdbcTemplate

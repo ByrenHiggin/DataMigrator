@@ -1,7 +1,5 @@
 package com.tw.datamigrator.config
 
-import com.tw.datamigrator.data.DataSourceProperties
-import com.tw.datamigrator.data.DatabaseProperties
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.jdbc.DataSourceBuilder

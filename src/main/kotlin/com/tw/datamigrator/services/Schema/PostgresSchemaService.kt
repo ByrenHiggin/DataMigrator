@@ -10,6 +10,7 @@ class PostgresSchemaService(private val jdbcTemplate: JdbcTemplate) : SchemaServ
     override fun getTableSchema(tableName: String, schema: String): PostgresSchema {
         val query = "SELECT COLUMN_NAME, DATA_TYPE, NULLABLE, DATA_DEFAULT FROM ALL_TAB_COLUMNS WHERE TABLE_NAME = ? AND OWNER = ?"
         val result = jdbcTemplate.queryForList(query, tableName.uppercase(Locale.getDefault()), schema.uppercase(Locale.getDefault()))
-        return PostgresSchema.fromMap(result)
+        return PostgresSchema.fromMap(tableName, schema, result)
+
     }
 }

@@ -1,6 +1,6 @@
 package com.tw.datamigrator.batch
 
-import com.tw.datamigrator.data.DataSourceProperties
+import com.tw.datamigrator.config.DataSourceProperties
 
 interface DataTransferTask {
     val connection: DataSourceProperties

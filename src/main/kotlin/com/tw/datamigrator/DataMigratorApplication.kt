@@ -1,6 +1,6 @@
 package com.tw.datamigrator
 
-import com.tw.datamigrator.data.DatabaseProperties
+import com.tw.datamigrator.config.DatabaseProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
